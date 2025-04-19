@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEO Activities Tracking</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f8f9fa;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: white;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        color: #777;
+        text-align: center;
+      }
+      td:first-child {
+        background-color: #f9f9f9;
+        color: #666;
+        padding-left: 20px;
+      }
+      .editable-cell {
+        cursor: pointer;
+        min-height: 24px;
+        min-width: 100px;
+      }
+      .editable-cell:hover {
+        background-color: #f0f0f0;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .button-container {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      function EditableTable() {
+        const activities = [
+          "Onboarding Call",
+          "Google Search Console Access",
+          "Google Analytics Access",
+          "Website Access",
+          "Technical Audit",
+          "Anchor Text and Semantic Analysis",
+          "Competitor Analysis",
+          "Anchor Text / URL Mapping",
+          "Google Data Studio Report + Local Reporting Suite",
+          "Site Level Optimization",
+          "On Page Optimization",
+          "Content Creation",
+          "Content Publishing",
+          "Premium Press Release",
+          "Authority Niche Placements",
+          "Review Management",
+          "Index Links",
+          "Video Recap",
+        ];
+
+        // Create initial state with empty cells
+        const initialData = activities.map((activity, index) => {
+          return {
+            id: index + 1,
+            activity: activity,
+            col1: "",
+            col2: "",
+            col3: "",
+            col4: "",
+          };
+        });
+
+        const [data, setData] = useState(initialData);
+        const [editing, setEditing] = useState(null);
+
+        const handleCellClick = (rowId, field) => {
+          setEditing({ rowId, field });
+        };
+
+        const handleCellChange = (rowId, field, value) => {
+          const updatedData = data.map((row) => {
+            if (row.id === rowId) {
+              return { ...row, [field]: value };
+            }
+            return row;
+          });
+          setData(updatedData);
+        };
+
+        const handleBlur = () => {
+          setEditing(null);
+        };
+
+        const handleKeyDown = (e) => {
+          if (e.key === "Enter") {
+            setEditing(null);
+          }
+        };
+
+        const submitData = () => {
+          // Prepare data for API submission
+          console.log("Data ready for API submission:", data);
+          alert("Data is ready for API submission. Check console for details.");
+
+          // In a real application, you would send this data to your API endpoint
+          // Example:
+          // fetch('https://your-api-endpoint.com/data', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify(data),
+          // })
+          // .then(response => response.json())
+          // .then(result => console.log('Success:', result))
+          // .catch(error => console.error('Error:', error));
+        };
+
+        const renderCell = (row, field) => {
+          const isEditing =
+            editing && editing.rowId === row.id && editing.field === field;
+
+          if (isEditing) {
+            return (
+              <input
+                type="text"
+                value={row[field]}
+                onChange={(e) =>
+                  handleCellChange(row.id, field, e.target.value)
+                }
+                onBlur={handleBlur}
+                onKeyDown={handleKeyDown}
+                autoFocus
+              />
+            );
+          }
+
+          return (
+            <div
+              className="editable-cell"
+              onClick={() => handleCellClick(row.id, field)}
+            >
+              {row[field]}
+            </div>
+          );
+        };
+
+        return (
+          <div className="container">
+            <table>
+              <thead>
+                <tr>
+                  <th style={{ width: "35%" }}>MONTH 1</th>
+                  <th style={{ width: "16%" }}></th>
+                  <th style={{ width: "16%" }}></th>
+                  <th style={{ width: "16%" }}></th>
+                  <th style={{ width: "16%" }}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((row) => (
+                  <tr key={row.id}>
+                    <td>{row.activity}</td>
+                    <td>{renderCell(row, "col1")}</td>
+                    <td>{renderCell(row, "col2")}</td>
+                    <td>{renderCell(row, "col3")}</td>
+                    <td>{renderCell(row, "col4")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="button-container">
+              <button onClick={submitData}>Submit Data</button>
+            </div>
+          </div>
+        );
+      }
+
+      const container = document.getElementById("root");
+      const root = ReactDOM.createRoot(container);
+      root.render(<EditableTable />);
+    </script>
+  </body>
+</html>
