@@ -12,7 +12,7 @@ A single HTML page with embedded React that displays an editable table for track
 - Matches the exact structure from the provided template
 
 ### How to Run
-Simply open `index.html` in any browser
+Simply open `task_1.html` in any browser
 
 ## Task 2: User Dashboard with Vite/React
 A React dashboard that fetches and displays user data from a public API.
@@ -25,7 +25,7 @@ A React dashboard that fetches and displays user data from a public API.
 
 ### How to Run
 ```bash
-cd task2-user-dashboard
+cd task_2
 npm install
 npm run dev
 ```
